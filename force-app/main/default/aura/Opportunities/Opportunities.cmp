@@ -85,7 +85,7 @@
         <div class="slds-col" size="3">
             <lightning:navigation aura:id="navService" />
 
-            <lightning:Button label="View" class="slds-m-left_medium slds-button slds-button_brand"
+            <lightning:Button label="View" class="slds-m-top_medium slds-button slds-button_brand"
                 onclick="{!c.handleNavigateClick}">
             </lightning:Button>
         </div>
