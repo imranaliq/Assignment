@@ -1,0 +1,94 @@
+<aura:component controller="OppUpdateStageCtrl" implements="flexipage:availableForAllPageTypes" access="global">
+
+    <aura:attribute name="mslabel" type="String" default="" />
+    <aura:attribute name="maxSelectedShow" type="Integer" default="2" />
+    <aura:attribute name="msname" type="String" default="Select Stage" />
+    <aura:attribute name="selectedOptions" type="List" />
+    <aura:attribute name="selectedLabel" type="String" default="Select Stage" />
+    <aura:attribute name="initializationCompleted" type="Boolean" default="false" />
+
+    <aura:attribute name="pageReference" type="Object" />
+    <aura:attribute name="options" type="String[]" access="PRIVATE"></aura:attribute>
+    <aura:attribute name="selectedStages" type="String[]" access="PRIVATE"></aura:attribute>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"></aura:handler>
+    <aura:handler name="render" value="{!this}" action="{!c.onRender}" />
+
+    <lightning:layout class="slds-page-header slds-page-header--object-home">
+            <lightning:layoutItem>
+                    <lightning:icon iconName="standard:opportunity" alternativeText="Opportunity" />
+                </lightning:layoutItem>
+        <lightning:layoutItem padding="horizontal-small">
+            <div class="page-section page-header">
+                <h1 class="slds-text-heading--label">Opportunity</h1>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+    <!-- <c:MultiSelect aura:id="stage" mslabel="Opportunity Stage" msoptions="{!v.options}" /> -->
+    <!-- DROPDOWN Component Code Starts HERE-->
+    <lightning:card class="slds-grid">
+        <div class="slds-form-element slds-col" size="9" aura:id="stage-dropdown">
+            <aura:if isTrue="{! !empty(v.mslabel)}">
+                <label class="slds-form-element__label">{!v.mslabel}</label>
+            </aura:if>
+            <div class="slds-form-element__control">
+                <div class="slds-combobox_container slds-size_small">
+                    <div id="ms-picklist-dropdown"
+                        class="slds-dropdown-trigger slds-dropdown-trigger_click slds-picklist ms-picklist-dropdown"
+                        aria-expanded="false" aria-haspopup="listbox" role="listbox">
+                        <!-- MAIN BUTTON CODE -->
+                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                            role="none">
+                            <input class="slds-combobox__input ms-input" id="ms-input" aria-controls="ms-dropdown-items"
+                                role="textbox" type="text" placeholder="{!v.selectedLabel}" value="" readonly="true" />
+                            <span
+                                class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right"
+                                title="Click to open dropdown">
+                                <lightning:icon iconName="utility:down" size="x-small"
+                                    class="slds-icon slds-icon--selected slds-icon--x-small slds-icon-text-default slds-m-right--x-small" />
+                            </span>
+                        </div>
+                        <!-- MAIN BUTTON CODE ENDS -->
+                        <!-- Drop down list -->
+                        <div id="ms-dropdown-items" role="listbox">
+                            <!-- Creating unordered list -->
+                            <ul class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid ms-dropdown"
+                                role="presentation">
+                                <!-- Generating list item by iterating over options -->
+                                <aura:iteration items="{!v.options}" var="item">
+                                    <li role="presentation"
+                                        class="{!'slds-listbox__item ms-list-item '+ (item.selected ? 'slds-is-selected' : '')}"
+                                        id="ms-list-item" data-id="{!item.Id}" data-name="{!item.Name}">
+                                        <div id="listbox-option-unique-id-01"
+                                            class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small slds-media_center"
+                                            role="option">
+                                            <!-- Icon for each list item -->
+                                            <span class="slds-media__figure">
+                                                <lightning:icon iconName="utility:check" size="x-small"
+                                                    class="slds-icon slds-icon--selected slds-icon--x-small slds-icon-text-default slds-m-right--x-small" />
+                                            </span>
+                                            <!-- Body of each list item -->
+                                            <span class="slds-media__body">
+                                                <span class="slds-truncate" title="{!item.Name}">{!item.Name}</span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </aura:iteration>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- DROPDOWN Component Code Ends HERE-->
+
+        <div class="slds-col" size="3">
+            <lightning:navigation aura:id="navService" />
+
+            <lightning:Button label="View" class="slds-m-left_medium slds-button slds-button_brand"
+                onclick="{!c.handleNavigateClick}">
+            </lightning:Button>
+        </div>
+    </lightning:card>
+
+</aura:component>

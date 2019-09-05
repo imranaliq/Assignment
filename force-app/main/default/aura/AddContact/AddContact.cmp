@@ -1,0 +1,60 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global"
+    controller="ContactAddOnMultipleAccountCtrl">
+    <aura:attribute name="newContact" type="Contact" default="{'sObjectType':'Contact'
+                                                            ,FirstName:''
+                                                            ,LastName:''
+                                                            ,Phone:''
+                                                            ,HomePhone:''
+                                                        ,AccountId:''}" />
+    <aura:attribute name="accounts" type="Account[]" />
+    <aura:attribute name="selectedAccount" type="Account[]" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <lightning:layout class="slds-page-header slds-page-header--object-home">
+        <lightning:layoutItem>
+            <lightning:icon iconName="standard:contact" alternativeText="Contact" />
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="horizontal-small">
+            <div class="page-section page-header">
+                <h1 class="slds-text-heading--label">Add Contact</h1>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout>
+        <lightning:layoutItem size="12">
+            <div aria-labelledby="new-contact-form">
+                <fieldset class="slds-box slds-theme--default slds-container--small">
+               
+                    <form class="slds-form--stacked">
+                        <lightning:input aura:id="contactform" label="First Name" name="firstname"
+                            value="{!v.newContact.FirstName}" required="true" />
+                        <lightning:input aura:id="contactform" label="Last Name" name="lastname"
+                            value="{!v.newContact.LastName}" required="true" />
+                        <lightning:input aura:id="contactform" label="Phone" name="phone"
+                            value="{!v.newContact.Phone}" />
+                        <lightning:input aura:id="contactform" label="Home Phone" name="homephone"
+                            value="{!v.newContact.HomePhone}" />
+                        <lightning:select aura:id="accountPckLst" name="Account" label="Account"
+                            onchange="{!c.addSelectedAccount}">
+                            <option text="Select Account" value=""></option>
+                            <aura:iteration items="{!v.accounts}" var="option">
+                                <option text="{!option.Name}" value="{!option.Id}" />
+                            </aura:iteration>
+                        </lightning:select>
+                        <aura:iteration items="{!v.selectedAccount}" var="account">
+                            <lightning:pill class="slds-m-around_xx-small" label="{!account.Name}" name="{!account.Id}"
+                                onremove="{! c.removeSelectedAccount }">
+                                <aura:set attribute="media">
+                                    <lightning:icon size="x-small" alternativeText="icon" />
+                                </aura:set>
+                            </lightning:pill>
+                        </aura:iteration>
+                        <lightning:button label="Add Contact" class="slds-m-top--medium" variant="brand"
+                            onclick="{!c.clickCreate}" />
+                    </form>
+                </fieldset>
+            </div>
+
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

@@ -1,0 +1,66 @@
+<aura:component controller="OppUpdateStageCtrl" implements="lightning:isUrlAddressable,force:appHostable">
+    <aura:attribute name="opportunities" type="Opportunity[]" access="PRIVATE"></aura:attribute>
+    <aura:attribute name="stages" type="String[]"></aura:attribute>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"></aura:handler>
+    <aura:handler name="change" value="{!v.pageReference}" action="{!c.doInit}" />
+    <aura:attribute name="selectedOpportunity" type="String[]" />
+
+    <lightning:layout class="slds-page-header slds-page-header--object-home">
+        <lightning:layoutItem>
+            <lightning:icon iconName="standard:opportunity" alternativeText="Opportunity" />
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="horizontal-small">
+            <h1 class="slds-text-heading--label">Opportunity</h1>
+        </lightning:layoutItem>
+    
+  
+        <table class="slds-table slds-table_bordered">
+            <thead>
+                <tr>
+                    <th>
+                        <!-- <div class="slds-checkbox">
+                                            <input type="checkbox" name="chk" />
+                                            <label class="slds-checkbox__label">
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </label>
+                                        </div> -->
+                    </th>
+                    <th>S no</th>
+                    <th>Name</th>
+                    <th>Stage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.opportunities}" var="opportunity" indexVar="i">
+                    <tr>
+                        <td>
+                            <aura:if isTrue="{! opportunity.StageName != 'Closed Won'}">
+                                <div class="slds-checkbox">
+                                    <input type="checkbox" name="chk" id="{!opportunity.Id}"
+                                        onchange="{!c.getSelectedOpportunity}" />
+                                    <label class="slds-checkbox__label" for="{!opportunity.Id}">
+                                        <span class="slds-checkbox_faux"></span>
+                                    </label>
+                                </div>
+                            </aura:if>
+                        </td>
+                        <td>
+                            {!i+1}
+                        </td>
+                        <td>{!opportunity.Name}</td>
+                        <td>{!opportunity.StageName}</td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="slds-float_right slds-p-right_small slds-p-bottom_small slds-p-top_small" colspan="100%">
+                        <lightning:Button label="Closed Won" class="slds-button slds-button_brand"
+                            onclick="{!c.handleUpdateStageClick}">
+                        </lightning:Button>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+</lightning:layout>
+</aura:component>
